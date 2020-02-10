@@ -1,6 +1,7 @@
 import collections
 from types import MethodType
 
+from django.contrib.gis.geos import MultiPolygon, Point
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.fields.files import FieldFile
@@ -174,11 +175,22 @@ class FloatField(DEDField, Float):
 
 
 class GeoPointField(DEDField, GeoPoint):
-    pass
+    def get_value_from_instance(self, instance, field_value_to_ignore=None):
+        value = super().get_value_from_instance(instance, field_value_to_ignore)
+        if isinstance(value, Point):
+            return {"lon": value.x, "lat": value.y}
+        return value
 
 
 class GeoShapeField(DEDField, GeoShape):
-    pass
+    def get_value_from_instance(self, instance, field_value_to_ignore=None):
+        value = super().get_value_from_instance(instance, field_value_to_ignore)
+        if isinstance(value, MultiPolygon):
+            return {
+                "type": value.geom_type,
+                "coordinates": value.coords,
+            }
+        return value
 
 
 class IntegerField(DEDField, Integer):
