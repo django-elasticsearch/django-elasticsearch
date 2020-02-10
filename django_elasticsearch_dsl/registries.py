@@ -50,7 +50,21 @@ class DocumentRegistry(object):
             raise ImproperlyConfigured("You must specify the django model")
 
         # Add The model fields into elasticsearch mapping field
-        model_field_names = getattr(document.Django, "fields", [])
+        all_model_fields = [f.name for f in django_attr.model._meta.fields]
+        var_fields = getattr(document.Django, "fields")
+        var_exclude = getattr(document.Django, "exclude")
+        if var_fields and var_exclude:
+            raise ImproperlyConfigured("You can't set fields and exclude together.")
+        elif var_fields:
+            if var_fields == "__all__":
+                model_field_names = all_model_fields
+            else:
+                model_field_names = var_fields
+        elif var_exclude:
+            model_field_names = [f for f in all_model_fields if f not in var_exclude]
+        else:
+            raise ImproperlyConfigured("You need to set either fields or exclude.")
+
         mapping_fields = document._doc_type.mapping.properties.properties.to_dict().keys()
 
         for field_name in model_field_names:
