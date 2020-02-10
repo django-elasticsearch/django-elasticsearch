@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "django_elasticsearch_dsl"
+version = "7.0.0"
+description = "Wrapper around elasticsearch-dsl-py for django models"
+authors = [
+  "Sabricot",
+  "Safwan Rahman <safwan.rahman15@gmail.com>",
+  "Marko Tibold <marko@tibold.nl>",
+  "Hans Adema",
+  "Artur Barseghyan",
+  "Andreas Nüßlein <andreas@nuessle.in>",
+]
+include = ["AUTHORS.rst", "CONTRIBUTING.rst", "HISTORY.rst"]
+license = "Apache-2.0"
+readme = "README.rst"
+keywords = ["django", "elasticsearch", "elasticsearch-dsl"]
+classifiers = [
+  "Framework :: Django",
+  "Framework :: Django :: 1.11",
+  "Framework :: Django :: 2.0",
+  "Framework :: Django :: 2.1",
+  "Framework :: Django :: 2.2",
+  "Framework :: Django :: 3.0",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: BSD License",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+django = ">=1.9.6"
+"elasticsearch-dsl" = ">=7.0.0,<8.0.0"
+
+[tool.poetry.dev-dependencies]
+#django = ">=2.0,<2.2"
+#elasticsearch-dsl>=7.0.0,<8.0.0
+#sphinx
+#coverage==4.1
+#mock>=1.0.1
+#flake8>=2.1.0
+#tox>=1.7.0
+#Pillow= "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
