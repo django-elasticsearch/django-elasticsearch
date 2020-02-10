@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from collections import deque
 from functools import partial
 
@@ -7,7 +5,6 @@ from django import VERSION as DJANGO_VERSION
 from django.db import models
 from elasticsearch.helpers import bulk, parallel_bulk
 from elasticsearch_dsl import Document as DSLDocument
-from six import iteritems
 
 from .exceptions import ModelFieldNotMappedError
 from .fields import (
@@ -94,7 +91,7 @@ class DocType(DSLDocument):
         """
         index_fields = getattr(self, '_fields', {})
         fields = []
-        for name, field in iteritems(index_fields):
+        for name, field in index_fields.items():
             if not isinstance(field, DEDField):
                 continue
 
