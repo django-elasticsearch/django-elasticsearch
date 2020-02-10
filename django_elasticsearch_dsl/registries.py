@@ -51,8 +51,8 @@ class DocumentRegistry(object):
 
         # Add The model fields into elasticsearch mapping field
         all_model_fields = [f.name for f in django_attr.model._meta.fields]
-        var_fields = getattr(document.Django, "fields")
-        var_exclude = getattr(document.Django, "exclude")
+        var_fields = getattr(document.Django, "fields", None)
+        var_exclude = getattr(document.Django, "exclude", None)
         if var_fields and var_exclude:
             raise ImproperlyConfigured("You can't set fields and exclude together.")
         elif var_fields:
