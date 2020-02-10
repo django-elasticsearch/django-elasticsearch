@@ -6,7 +6,7 @@ from elasticsearch_dsl import GeoPoint, MetaField
 from mock import patch, Mock, PropertyMock
 
 from django_elasticsearch_dsl import fields
-from django_elasticsearch_dsl.documents import DocType
+from django_elasticsearch_dsl.documents import Document
 from django_elasticsearch_dsl.exceptions import (ModelFieldNotMappedError,
                                                  RedeclaredFieldError)
 from django_elasticsearch_dsl.registries import registry
@@ -36,7 +36,7 @@ class Manufacturer(models.Model):
 
 
 @registry.register_document
-class CarDocument(DocType):
+class CarDocument(Document):
     color = fields.TextField()
     type = fields.TextField()
 
@@ -56,7 +56,7 @@ class CarDocument(DocType):
         doc_type = 'car_document'
 
 
-class DocTypeTestCase(TestCase):
+class DocumentTestCase(TestCase):
 
     def test_model_class_added(self):
         self.assertEqual(CarDocument.django.model, Car)
@@ -70,7 +70,7 @@ class DocTypeTestCase(TestCase):
     def test_ignore_signal_added(self):
 
         @registry.register_document
-        class CarDocument2(DocType):
+        class CarDocument2(Document):
             class Django:
                 model = Car
                 ignore_signals = True
@@ -79,7 +79,7 @@ class DocTypeTestCase(TestCase):
 
     def test_auto_refresh_added(self):
         @registry.register_document
-        class CarDocument2(DocType):
+        class CarDocument2(Document):
             class Django:
                 model = Car
                 auto_refresh = False
@@ -88,7 +88,7 @@ class DocTypeTestCase(TestCase):
 
     def test_queryset_pagination_added(self):
         @registry.register_document
-        class CarDocument2(DocType):
+        class CarDocument2(Document):
             class Django:
                 model = Car
                 queryset_pagination = 120
@@ -110,7 +110,7 @@ class DocTypeTestCase(TestCase):
     def test_duplicate_field_names_not_allowed(self):
         with self.assertRaises(RedeclaredFieldError):
             @registry.register_document
-            class CarDocument(DocType):
+            class CarDocument(Document):
                 color = fields.TextField()
                 name = fields.TextField()
 
@@ -119,13 +119,13 @@ class DocTypeTestCase(TestCase):
                     model = Car
 
     def test_to_field(self):
-        doc = DocType()
+        doc = Document()
         nameField = doc.to_field('name', Car._meta.get_field('name'))
         self.assertIsInstance(nameField, fields.TextField)
         self.assertEqual(nameField._path, ['name'])
 
     def test_to_field_with_unknown_field(self):
-        doc = DocType()
+        doc = Document()
         with self.assertRaises(ModelFieldNotMappedError):
             doc.to_field('manufacturer', Car._meta.get_field('manufacturer'))
 
@@ -171,7 +171,7 @@ class DocTypeTestCase(TestCase):
 
     def test_prepare_ignore_dsl_base_field(self):
         @registry.register_document
-        class CarDocumentDSlBaseField(DocType):
+        class CarDocumentDSlBaseField(Document):
             position = GeoPoint()
 
             class Django:
@@ -265,7 +265,7 @@ class DocTypeTestCase(TestCase):
             self.assertNotIn('refresh', mock.call_args_list[0][1])
 
     def test_model_instance_iterable_update_with_pagination(self):
-        class CarDocument2(DocType):
+        class CarDocument2(Document):
             class Django:
                 model = Car
                 queryset_pagination = 2
@@ -286,7 +286,7 @@ class DocTypeTestCase(TestCase):
             self.assertEqual(mock_parallel_bulk.call_count, 0, "parallel bulk is not called")
 
     def test_model_instance_iterable_update_with_parallel(self):
-        class CarDocument2(DocType):
+        class CarDocument2(Document):
             class Django:
                 model = Car
 

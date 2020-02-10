@@ -2,7 +2,7 @@ from mock import Mock
 
 from django.db import models
 
-from django_elasticsearch_dsl.documents import DocType
+from django_elasticsearch_dsl.documents import Document
 
 
 class WithFixturesMixin(object):
@@ -29,7 +29,7 @@ class WithFixturesMixin(object):
                            _ignore_signals=False, _related_models=None):
         _index = index
 
-        class Doc(DocType):
+        class Doc(Document):
 
             class Django:
                 model = _model

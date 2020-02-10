@@ -52,10 +52,11 @@ model_field_class_to_field_class = {
     gismodels.MultiPolygonField: GeoShapeField,
 }
 
-class DocType(DSLDocument):
+
+class Document(DSLDocument):
     _prepared_fields = []
     def __init__(self, related_instance_to_ignore=None, **kwargs):
-        super(DocType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self._related_instance_to_ignore = related_instance_to_ignore
         self._prepared_fields = self.init_prepare()
 
@@ -122,7 +123,7 @@ class DocType(DSLDocument):
     def prepare(self, instance):
         """
         Take a model instance, and turn it into a dict that can be serialized
-        based on the fields defined on this DocType subclass
+        based on the fields defined on this Document subclass
         """
         data = {
             name: prep_func(instance)
@@ -201,7 +202,3 @@ class DocType(DSLDocument):
             parallel=parallel,
             **kwargs
         )
-
-
-# Alias of DocType. Need to remove DocType in 7.x
-Document = DocType
