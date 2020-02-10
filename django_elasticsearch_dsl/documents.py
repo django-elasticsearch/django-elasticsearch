@@ -3,6 +3,7 @@ from functools import partial
 
 from django import VERSION as DJANGO_VERSION
 from django.db import models
+from django.contrib.postgres import fields as psqlfields
 from elasticsearch.helpers import bulk, parallel_bulk
 from elasticsearch_dsl import Document as DSLDocument
 
@@ -18,6 +19,7 @@ from .fields import (
     LongField,
     ShortField,
     TextField,
+    ObjectField
 )
 from .search import Search
 
@@ -43,6 +45,7 @@ model_field_class_to_field_class = {
     models.TextField: TextField,
     models.TimeField: LongField,
     models.URLField: TextField,
+    psqlfields.JSONField: ObjectField,
 }
 
 class DocType(DSLDocument):
