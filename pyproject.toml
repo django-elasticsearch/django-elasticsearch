@@ -10,7 +10,7 @@ authors = [
   "Artur Barseghyan",
   "Andreas Nüßlein <andreas@nuessle.in>",
 ]
-include = ["AUTHORS.rst", "CONTRIBUTING.rst", "HISTORY.rst"]
+include = ["CONTRIBUTING.rst", "HISTORY.rst"]
 license = "Apache-2.0"
 readme = "README.rst"
 keywords = ["django", "elasticsearch", "elasticsearch-dsl"]
@@ -31,6 +31,7 @@ django = ">=1.9.6"
 "elasticsearch-dsl" = ">=7.0.0,<8.0.0"
 
 [tool.poetry.dev-dependencies]
+ipdb = "*"
 #django = ">=2.0,<2.2"
 #elasticsearch-dsl>=7.0.0,<8.0.0
 #sphinx

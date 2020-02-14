@@ -50,6 +50,7 @@ model_field_class_to_field_class = {
     models.URLField: TextField,
     models.ForeignKey: ObjectField,
     psqlfields.JSONField: DEDField,
+    psqlfields.ArrayField: DEDField,
     gismodels.PointField: GeoPointField,
     gismodels.MultiPolygonField: GeoShapeField,
 }
