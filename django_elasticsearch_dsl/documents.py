@@ -16,6 +16,7 @@ from .fields import (
     DoubleField,
     FileField,
     IntegerField,
+    JSONField,
     KeywordField,
     LongField,
     ObjectField,
@@ -49,7 +50,7 @@ model_field_class_to_field_class = {
     models.TimeField: LongField,
     models.URLField: TextField,
     models.ForeignKey: ObjectField,
-    psqlfields.JSONField: DEDField,
+    psqlfields.JSONField: JSONField,
     psqlfields.ArrayField: DEDField,
     gismodels.PointField: GeoPointField,
     gismodels.MultiPolygonField: GeoShapeField,
@@ -128,10 +129,18 @@ class Document(DSLDocument):
         Take a model instance, and turn it into a dict that can be serialized
         based on the fields defined on this Document subclass
         """
-        data = {
-            name: prep_func(instance)
-                for name, field, prep_func in self._prepared_fields
-            }
+        data = {}
+        for name, field, prep_func in self._prepared_fields:
+            value = prep_func(instance)
+            data[name] = value
+
+            choices = field._params.get('_value_choices')
+            if value and choices:
+                if isinstance(value, list):
+                    value_display = [x[1] for x in choices if x[0] in value]
+                else:
+                    value_display = [x[1] for x in choices if x[0] == value][0]
+                data[f"{name}_display"] = value_display
         return data
 
     @classmethod
@@ -142,8 +151,13 @@ class Document(DSLDocument):
         model field to ES field logic
         """
         try:
-            return model_field_class_to_field_class[
-                model_field.__class__](attr=field_name)
+            if isinstance(model_field, psqlfields.ArrayField):
+                choices = model_field.base_field.choices
+            else:
+                choices = model_field.choices
+            field_class = model_field_class_to_field_class[
+                model_field.__class__](attr=field_name, _value_choices=choices)
+            return field_class
         except KeyError:
             raise ModelFieldNotMappedError(
                 "Cannot convert model field {} "

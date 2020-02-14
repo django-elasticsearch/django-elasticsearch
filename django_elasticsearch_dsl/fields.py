@@ -134,6 +134,10 @@ class ObjectField(DEDField, Object):
         return self._get_inner_field_data(objs, field_value_to_ignore)
 
 
+class JSONField(DEDField, Object):
+    pass
+
+
 def ListField(field):
     """
     This wraps a field so that when get_value_from_instance
