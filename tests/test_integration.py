@@ -140,6 +140,7 @@ class IntegrationTestCase(ESTestCase, TestCase):
         car2_doc = result[0]
         self.assertEqual(car2_doc.to_dict(), {
             'type': self.car2.type,
+            'type_display': self.car2.get_type_display(),
             'launched': self.car2.launched,
             'name': self.car2.name,
             'manufacturer': {
@@ -159,6 +160,7 @@ class IntegrationTestCase(ESTestCase, TestCase):
         car3_doc = result[0]
         self.assertEqual(car3_doc.to_dict(), {
             'type': self.car3.type,
+            'type_display': self.car3.get_type_display(),
             'launched': self.car3.launched,
             'name': self.car3.name,
             'categories': [
