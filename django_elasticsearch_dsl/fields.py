@@ -31,7 +31,8 @@ from .exceptions import VariableLookupError
 
 
 class DEDField(Field):
-    def __init__(self, attr=None, **kwargs):
+    def __init__(self, attr=None, _value_choices=None, **kwargs):
+        self._value_choices = _value_choices
         super(DEDField, self).__init__(**kwargs)
         self._path = attr.split('.') if attr else []
 

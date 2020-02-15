@@ -63,7 +63,7 @@ class DocumentRegistry(object):
         elif var_exclude:
             model_field_names = [f for f in all_model_fields if f not in var_exclude]
         else:
-            raise ImproperlyConfigured("You need to set either fields or exclude.")
+            model_field_names = []
 
         mapping_fields = document._doc_type.mapping.properties.properties.to_dict().keys()
 

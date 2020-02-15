@@ -126,8 +126,9 @@ class DocumentTestCase(TestCase):
 
     def test_to_field_with_unknown_field(self):
         doc = Document()
-        with self.assertRaises(ModelFieldNotMappedError):
-            doc.to_field('manufacturer', Car._meta.get_field('manufacturer'))
+        manField = doc.to_field('manufacturer', Car._meta.get_field('manufacturer'))
+        self.assertIsInstance(manField, fields.ObjectField)
+        self.assertEqual(manField._path, ['manufacturer'])
 
     def test_mapping(self):
         text_type = 'string' if ES_MAJOR_VERSION == 2 else 'text'

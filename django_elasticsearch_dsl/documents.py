@@ -134,7 +134,7 @@ class Document(DSLDocument):
             value = prep_func(instance)
             data[name] = value
 
-            choices = field._params.get('_value_choices')
+            choices = field._value_choices
             if value and choices:
                 if isinstance(value, list):
                     value_display = [x[1] for x in choices if x[0] in value]
