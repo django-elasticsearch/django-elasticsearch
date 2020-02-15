@@ -30,7 +30,7 @@ before_install:
   - wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
   - echo "deb $ES_APT_URL stable main" | sudo tee -a /etc/apt/sources.list.d/elk.list
   - sudo apt-get remove --purge elasticsearch -y
-  - sudo apt-get update && sudo apt-get install elasticsearch -y
+  - sudo apt-get update && sudo apt-get install elasticsearch binutils libproj-dev gdal-bin -y
   - sudo -i systemctl restart elasticsearch
 
 install: poetry install
