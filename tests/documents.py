@@ -5,16 +5,16 @@ from django_elasticsearch_dsl.registries import registry
 from .models import Ad, Category, Car, Manufacturer
 
 index_settings = {
-    'number_of_shards': 1,
-    'number_of_replicas': 0,
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
 }
 
 
 html_strip = analyzer(
-    'html_strip',
+    "html_strip",
     tokenizer="standard",
     filter=["lowercase", "stop", "snowball"],
-    char_filter=["html_strip"]
+    char_filter=["html_strip"],
 )
 
 
@@ -24,39 +24,41 @@ class CarDocument(Document):
     def __init__(self, *args, **kwargs):
         super(CarDocument, self).__init__(*args, **kwargs)
 
-    manufacturer = fields.ObjectField(properties={
-        'name': fields.TextField(),
-        'country': fields.TextField(),
-    })
+    manufacturer = fields.ObjectField(
+        properties={"name": fields.TextField(), "country": fields.TextField(),}
+    )
 
-    ads = fields.NestedField(properties={
-        'description': fields.TextField(analyzer=html_strip),
-        'title': fields.TextField(),
-        'pk': fields.IntegerField(),
-    })
+    ads = fields.NestedField(
+        properties={
+            "description": fields.TextField(analyzer=html_strip),
+            "title": fields.TextField(),
+            "pk": fields.IntegerField(),
+        }
+    )
 
-    categories = fields.NestedField(properties={
-        'title': fields.TextField(),
-        'slug': fields.TextField(),
-        'icon': fields.FileField(),
-    })
+    categories = fields.NestedField(
+        properties={
+            "title": fields.TextField(),
+            "slug": fields.TextField(),
+            "icon": fields.FileField(),
+        }
+    )
 
     class Django:
         model = Car
         related_models = [Ad, Manufacturer, Category]
         fields = [
-            'name',
-            'launched',
-            'type',
+            "name",
+            "launched",
+            "type",
         ]
 
     class Index:
-        name = 'test_cars'
+        name = "test_cars"
         settings = index_settings
 
     def get_queryset(self):
-        return super(CarDocument, self).get_queryset().select_related(
-            'manufacturer')
+        return super(CarDocument, self).get_queryset().select_related("manufacturer")
 
     def get_instances_from_related(self, related_instance):
         if isinstance(related_instance, Ad):
@@ -73,53 +75,49 @@ class ManufacturerDocument(Document):
     class Django:
         model = Manufacturer
         fields = [
-            'name',
-            'created',
-            'country_code',
-            'logo',
+            "name",
+            "created",
+            "country_code",
+            "logo",
         ]
 
     class Index:
-        name = 'index_settings'
+        name = "index_settings"
         settings = index_settings
 
 
 @registry.register_document
 class CarWithPrepareDocument(Document):
-    manufacturer = fields.ObjectField(properties={
-        'name': fields.TextField(),
-        'country': fields.TextField(),
-    })
+    manufacturer = fields.ObjectField(
+        properties={"name": fields.TextField(), "country": fields.TextField(),}
+    )
 
-    manufacturer_short = fields.ObjectField(properties={
-        'name': fields.TextField(),
-    })
+    manufacturer_short = fields.ObjectField(properties={"name": fields.TextField(),})
 
     class Django:
         model = Car
         related_models = [Manufacturer]
         fields = [
-            'name',
-            'launched',
-            'type',
+            "name",
+            "launched",
+            "type",
         ]
 
     class Index:
-        name = 'car_with_prepare_index'
+        name = "car_with_prepare_index"
 
     def prepare_manufacturer_with_related(self, car, related_to_ignore):
-        if (car.manufacturer is not None and car.manufacturer !=
-                related_to_ignore):
+        if car.manufacturer is not None and car.manufacturer != related_to_ignore:
             return {
-                'name': car.manufacturer.name,
-                'country': car.manufacturer.country(),
+                "name": car.manufacturer.name,
+                "country": car.manufacturer.country(),
             }
         return {}
 
     def prepare_manufacturer_short(self, car):
         if car.manufacturer is not None:
             return {
-                'name': car.manufacturer.name,
+                "name": car.manufacturer.name,
             }
         return {}
 
@@ -130,21 +128,20 @@ class CarWithPrepareDocument(Document):
 @registry.register_document
 class AdDocument(Document):
     description = fields.TextField(
-        analyzer=html_strip,
-        fields={'raw': fields.KeywordField()}
+        analyzer=html_strip, fields={"raw": fields.KeywordField()}
     )
 
     class Django:
         model = Ad
         fields = [
-            'title',
-            'created',
-            'modified',
-            'url',
+            "title",
+            "created",
+            "modified",
+            "url",
         ]
 
     class Index:
-        name = 'test_ads'
+        name = "test_ads"
         settings = index_settings
 
 

@@ -6,7 +6,7 @@ from elasticsearch_dsl.connections import connections
 
 
 class DEDConfig(AppConfig):
-    name = 'django_elasticsearch_dsl'
+    name = "django_elasticsearch_dsl"
     verbose_name = "Django elasticsearch-dsl"
     signal_processor = None
 
@@ -17,20 +17,20 @@ class DEDConfig(AppConfig):
         if not self.signal_processor:
             signal_processor_path = getattr(
                 settings,
-                'ELASTICSEARCH_DSL_SIGNAL_PROCESSOR',
-                'django_elasticsearch_dsl.signals.RealTimeSignalProcessor'
+                "ELASTICSEARCH_DSL_SIGNAL_PROCESSOR",
+                "django_elasticsearch_dsl.signals.RealTimeSignalProcessor",
             )
             signal_processor_class = import_string(signal_processor_path)
             self.signal_processor = signal_processor_class(connections)
 
     @classmethod
     def autosync_enabled(cls):
-        return getattr(settings, 'ELASTICSEARCH_DSL_AUTOSYNC', True)
+        return getattr(settings, "ELASTICSEARCH_DSL_AUTOSYNC", True)
 
     @classmethod
     def default_index_settings(cls):
-        return getattr(settings, 'ELASTICSEARCH_DSL_INDEX_SETTINGS', {})
+        return getattr(settings, "ELASTICSEARCH_DSL_INDEX_SETTINGS", {})
 
     @classmethod
     def auto_refresh_enabled(cls):
-        return getattr(settings, 'ELASTICSEARCH_DSL_AUTO_REFRESH', True)
+        return getattr(settings, "ELASTICSEARCH_DSL_AUTO_REFRESH", True)

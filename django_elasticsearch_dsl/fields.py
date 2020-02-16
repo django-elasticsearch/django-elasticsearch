@@ -24,7 +24,7 @@ from elasticsearch_dsl.field import (
     Object,
     Short,
     Keyword,
-    Text
+    Text,
 )
 
 from .exceptions import VariableLookupError
@@ -34,10 +34,10 @@ class DEDField(Field):
     def __init__(self, attr=None, _value_choices=None, **kwargs):
         self._value_choices = _value_choices
         super(DEDField, self).__init__(**kwargs)
-        self._path = attr.split('.') if attr else []
+        self._path = attr.split(".") if attr else []
 
     def __setattr__(self, key, value):
-        if key == 'get_value_from_instance':
+        if key == "get_value_from_instance":
             self.__dict__[key] = value
         else:
             super(DEDField, self).__setattr__(key, value)
@@ -53,10 +53,7 @@ class DEDField(Field):
         for attr in self._path:
             try:
                 instance = instance[attr]
-            except (
-                TypeError, AttributeError,
-                KeyError, ValueError, IndexError
-            ):
+            except (TypeError, AttributeError, KeyError, ValueError, IndexError):
                 try:
                     instance = getattr(instance, attr)
                 except ObjectDoesNotExist:
@@ -64,10 +61,7 @@ class DEDField(Field):
                 except (TypeError, AttributeError):
                     try:
                         instance = instance[int(attr)]
-                    except (
-                        IndexError, ValueError,
-                        KeyError, TypeError
-                    ):
+                    except (IndexError, ValueError, KeyError, TypeError):
                         raise VariableLookupError(
                             "Failed lookup for key [{}] in "
                             "{!r}".format(attr, instance)
@@ -94,7 +88,7 @@ class ObjectField(DEDField, Object):
     def _get_inner_field_data(self, obj, field_value_to_ignore=None):
         data = {}
 
-        if hasattr(self, 'properties'):
+        if hasattr(self, "properties"):
             for name, field in self.properties.to_dict().items():
                 if not isinstance(field, DEDField):
                     continue
@@ -102,20 +96,18 @@ class ObjectField(DEDField, Object):
                 if field._path == []:
                     field._path = [name]
 
-                data[name] = field.get_value_from_instance(
-                    obj, field_value_to_ignore
-                )
+                data[name] = field.get_value_from_instance(obj, field_value_to_ignore)
         else:
-            for name, field in self._doc_class._doc_type.mapping.properties._params.get('properties', {}).items(): # noqa
+            for name, field in self._doc_class._doc_type.mapping.properties._params.get(
+                "properties", {}
+            ).items():  # noqa
                 if not isinstance(field, DEDField):
                     continue
 
                 if field._path == []:
                     field._path = [name]
 
-                data[name] = field.get_value_from_instance(
-                    obj, field_value_to_ignore
-                )
+                data[name] = field.get_value_from_instance(obj, field_value_to_ignore)
 
         return data
 
@@ -129,7 +121,8 @@ class ObjectField(DEDField, Object):
         if isinstance(objs, collections.Iterable):
             return [
                 self._get_inner_field_data(obj, field_value_to_ignore)
-                for obj in objs if obj != field_value_to_ignore
+                for obj in objs
+                if obj != field_value_to_ignore
             ]
 
         return self._get_inner_field_data(objs, field_value_to_ignore)
@@ -221,11 +214,12 @@ class ShortField(DEDField, Short):
 class FileFieldMixin(object):
     def get_value_from_instance(self, instance, field_value_to_ignore=None):
         _file = super(FileFieldMixin, self).get_value_from_instance(
-            instance, field_value_to_ignore)
+            instance, field_value_to_ignore
+        )
 
         if isinstance(_file, FieldFile):
-            return _file.url if _file else ''
-        return _file if _file else ''
+            return _file.url if _file else ""
+        return _file if _file else ""
 
 
 class KeywordField(DEDField, Keyword):

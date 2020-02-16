@@ -59,6 +59,7 @@ model_field_class_to_field_class = {
 
 class Document(DSLDocument):
     _prepared_fields = []
+
     def __init__(self, related_instance_to_ignore=None, **kwargs):
         super().__init__(**kwargs)
         self._related_instance_to_ignore = related_instance_to_ignore
@@ -76,7 +77,7 @@ class Document(DSLDocument):
             using=cls._get_using(using),
             index=cls._default_index(index),
             doc_type=[cls],
-            model=cls.django.model
+            model=cls.django.model,
         )
 
     def get_queryset(self):
@@ -92,7 +93,7 @@ class Document(DSLDocument):
         qs = self.get_queryset()
         kwargs = {}
         if DJANGO_VERSION >= (2,) and self.django.queryset_pagination:
-            kwargs = {'chunk_size': self.django.queryset_pagination}
+            kwargs = {"chunk_size": self.django.queryset_pagination}
         return qs.iterator(**kwargs)
 
     def init_prepare(self):
@@ -101,7 +102,7 @@ class Document(DSLDocument):
         from the model and generate a list of callables to avoid doing that
         work on every object instance over.
         """
-        index_fields = getattr(self, '_fields', {})
+        index_fields = getattr(self, "_fields", {})
         fields = []
         for name, field in index_fields.items():
             if not isinstance(field, DEDField):
@@ -110,15 +111,20 @@ class Document(DSLDocument):
             if not field._path:
                 field._path = [name]
 
-            prep_func = getattr(self, 'prepare_%s_with_related' % name, None)
+            prep_func = getattr(self, "prepare_%s_with_related" % name, None)
             if prep_func:
-                fn = partial(prep_func, related_to_ignore=self._related_instance_to_ignore)
+                fn = partial(
+                    prep_func, related_to_ignore=self._related_instance_to_ignore
+                )
             else:
-                prep_func = getattr(self, 'prepare_%s' % name, None)
+                prep_func = getattr(self, "prepare_%s" % name, None)
                 if prep_func:
                     fn = prep_func
                 else:
-                    fn = partial(field.get_value_from_instance, field_value_to_ignore=self._related_instance_to_ignore)
+                    fn = partial(
+                        field.get_value_from_instance,
+                        field_value_to_ignore=self._related_instance_to_ignore,
+                    )
 
             fields.append((name, field, fn))
 
@@ -155,8 +161,9 @@ class Document(DSLDocument):
                 choices = model_field.base_field.choices
             else:
                 choices = model_field.choices
-            field_class = model_field_class_to_field_class[
-                model_field.__class__](attr=field_name, _value_choices=choices)
+            field_class = model_field_class_to_field_class[model_field.__class__](
+                attr=field_name, _value_choices=choices
+            )
             return field_class
         except KeyError:
             raise ModelFieldNotMappedError(
@@ -168,9 +175,11 @@ class Document(DSLDocument):
         return bulk(client=self._get_connection(), actions=actions, **kwargs)
 
     def parallel_bulk(self, actions, **kwargs):
-        if self.django.queryset_pagination and 'chunk_size' not in kwargs:
-            kwargs['chunk_size'] = self.django.queryset_pagination
-        bulk_actions = parallel_bulk(client=self._get_connection(), actions=actions, **kwargs)
+        if self.django.queryset_pagination and "chunk_size" not in kwargs:
+            kwargs["chunk_size"] = self.django.queryset_pagination
+        bulk_actions = parallel_bulk(
+            client=self._get_connection(), actions=actions, **kwargs
+        )
         # As the `parallel_bulk` is lazy, we need to get it into `deque` to run it instantly
         # See https://discuss.elastic.co/t/helpers-parallel-bulk-in-python-not-working/39498/2
         deque(bulk_actions, maxlen=0)
@@ -180,12 +189,10 @@ class Document(DSLDocument):
 
     def _prepare_action(self, object_instance, action):
         return {
-            '_op_type': action,
-            '_index': self._index._name,
-            '_id': object_instance.pk,
-            '_source': (
-                self.prepare(object_instance) if action != 'delete' else None
-            ),
+            "_op_type": action,
+            "_index": self._index._name,
+            "_id": object_instance.pk,
+            "_source": (self.prepare(object_instance) if action != "delete" else None),
         }
 
     def _get_actions(self, object_list, action):
@@ -194,20 +201,18 @@ class Document(DSLDocument):
 
     def _bulk(self, *args, **kwargs):
         """Helper for switching between normal and parallel bulk operation"""
-        parallel = kwargs.pop('parallel', False)
+        parallel = kwargs.pop("parallel", False)
         if parallel:
             return self.parallel_bulk(*args, **kwargs)
         else:
             return self.bulk(*args, **kwargs)
 
-    def update(self, thing, refresh=None, action='index', parallel=False, **kwargs):
+    def update(self, thing, refresh=None, action="index", parallel=False, **kwargs):
         """
         Update each document in ES for a model, iterable of models or queryset
         """
-        if refresh is True or (
-            refresh is None and self.django.auto_refresh
-        ):
-            kwargs['refresh'] = True
+        if refresh is True or (refresh is None and self.django.auto_refresh):
+            kwargs["refresh"] = True
 
         if isinstance(thing, models.Model):
             object_list = [thing]
@@ -215,7 +220,5 @@ class Document(DSLDocument):
             object_list = thing
 
         return self._bulk(
-            self._get_actions(object_list, action),
-            parallel=parallel,
-            **kwargs
+            self._get_actions(object_list, action), parallel=parallel, **kwargs
         )

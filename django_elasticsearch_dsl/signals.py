@@ -35,9 +35,9 @@ class BaseSignalProcessor(object):
         # Do nothing.
 
     def handle_m2m_changed(self, sender, instance, action, **kwargs):
-        if action in ('post_add', 'post_remove', 'post_clear'):
+        if action in ("post_add", "post_remove", "post_clear"):
             self.handle_save(sender, instance)
-        elif action in ('pre_remove', 'pre_clear'):
+        elif action in ("pre_remove", "pre_clear"):
             self.handle_pre_delete(sender, instance)
 
     def handle_save(self, sender, instance, **kwargs):

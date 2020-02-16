@@ -52,6 +52,9 @@ exclude = '''
 /(
     \.eggs
   | \.git
+  | migrations
+  | static-collected
+  | node_modules
 )/
 '''
 

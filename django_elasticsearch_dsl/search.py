@@ -5,7 +5,7 @@ from elasticsearch_dsl import Search as DSLSearch
 
 class Search(DSLSearch):
     def __init__(self, **kwargs):
-        self._model = kwargs.pop('model', None)
+        self._model = kwargs.pop("model", None)
         super(Search, self).__init__(**kwargs)
 
     def _clone(self):
@@ -21,9 +21,9 @@ class Search(DSLSearch):
         s = self
 
         # Do not query again if the es result is already cached
-        if not hasattr(self, '_response'):
+        if not hasattr(self, "_response"):
             # We only need the meta fields with the models ids
-            s = self.source(excludes=['*'])
+            s = self.source(excludes=["*"])
             s = s.execute()
 
         pks = [result.meta.id for result in s]

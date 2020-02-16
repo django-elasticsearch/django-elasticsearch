@@ -6,18 +6,17 @@ from django_elasticsearch_dsl.documents import Document
 
 
 class WithFixturesMixin(object):
-
     class ModelA(models.Model):
         class Meta:
-            app_label = 'foo'
+            app_label = "foo"
 
     class ModelB(models.Model):
         class Meta:
-            app_label = 'foo'
+            app_label = "foo"
 
     class ModelC(models.Model):
         class Meta:
-            app_label = 'bar'
+            app_label = "bar"
 
     class ModelD(models.Model):
         pass
@@ -25,12 +24,17 @@ class WithFixturesMixin(object):
     class ModelE(models.Model):
         pass
 
-    def _generate_doc_mock(self, _model, index=None, mock_qs=None,
-                           _ignore_signals=False, _related_models=None):
+    def _generate_doc_mock(
+        self,
+        _model,
+        index=None,
+        mock_qs=None,
+        _ignore_signals=False,
+        _related_models=None,
+    ):
         _index = index
 
         class Doc(Document):
-
             class Django:
                 model = _model
                 related_models = _related_models if _related_models is not None else []
