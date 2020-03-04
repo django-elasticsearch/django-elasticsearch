@@ -10,6 +10,7 @@ from elasticsearch_dsl import Document as DSLDocument
 
 from .exceptions import ModelFieldNotMappedError
 from .fields import (
+    ArrayField,
     BooleanField,
     DateField,
     DEDField,
@@ -51,7 +52,7 @@ model_field_class_to_field_class = {
     models.URLField: TextField,
     models.ForeignKey: ObjectField,
     psqlfields.JSONField: JSONField,
-    psqlfields.ArrayField: DEDField,
+    psqlfields.ArrayField: ArrayField,
     gismodels.PointField: GeoPointField,
     gismodels.MultiPolygonField: GeoShapeField,
 }
@@ -157,13 +158,22 @@ class Document(DSLDocument):
         model field to ES field logic
         """
         try:
-            if isinstance(model_field, psqlfields.ArrayField):
+            is_array_field = isinstance(model_field, psqlfields.ArrayField)
+
+            if is_array_field:
                 choices = model_field.base_field.choices
             else:
                 choices = model_field.choices
+
             field_class = model_field_class_to_field_class[model_field.__class__](
                 attr=field_name, _value_choices=choices
             )
+
+            if is_array_field:
+                _internal_class = model_field_class_to_field_class[
+                    model_field.base_field.__class__]
+                field_class.set_type(_internal_class.name)
+
             return field_class
         except KeyError:
             raise ModelFieldNotMappedError(

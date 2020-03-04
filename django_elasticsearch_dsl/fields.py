@@ -132,6 +132,11 @@ class JSONField(DEDField, Object):
     pass
 
 
+class ArrayField(DEDField):
+    def set_type(self, name):
+        self.__dict__["name"] = name
+
+
 def ListField(field):
     """
     This wraps a field so that when get_value_from_instance
