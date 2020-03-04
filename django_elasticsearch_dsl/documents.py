@@ -147,7 +147,7 @@ class Document(DSLDocument):
                     value_display = [x[1] for x in choices if x[0] in value]
                 else:
                     value_display = [x[1] for x in choices if x[0] == value][0]
-                data[f"{name}_display"] = value_display
+                data[f"{name}_display"] = str(value_display)  # here for ugettext_lazies
         return data
 
     @classmethod
