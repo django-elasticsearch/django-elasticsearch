@@ -1,10 +1,8 @@
 from django.utils.module_loading import autodiscover_modules
 
-from .documents import Document  # noqa
-from .indices import Index  # noqa
-from .fields import *  # noqa
-
-__version__ = "7.0.0b0"
+from .documents import Document
+from .fields import *
+from .indices import Index
 
 
 def autodiscover():
