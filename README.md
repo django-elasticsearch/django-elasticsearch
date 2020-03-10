@@ -1,14 +1,27 @@
+![PyPI](https://img.shields.io/pypi/v/django_elasticsearch_ng)
 ![python version](https://img.shields.io/badge/python-3.6+-blue.svg)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![Travis (.com)](https://img.shields.io/travis/com/django-elasticsearch/django-elasticsearch)
 ![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-elasticsearch-ng)
-# Django Elasticsearch
+![ElasticSearch Version](https://img.shields.io/badge/elasticsearch-7.0%2B-blue)
+![Travis (.com)](https://img.shields.io/travis/com/django-elasticsearch/django-elasticsearch)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+# Django-Elasticsearch
 
-Django Elasticsearch is a package that allows indexing of django models in elasticsearch.
-It is built as a thin wrapper around [elasticsearch-dsl](https://github.com/elastic/elasticsearch-dsl-py)
+Django-Elasticsearch is a package that allows indexing of django models in elasticsearch.
+It utilizes [elasticsearch-dsl](https://github.com/elastic/elasticsearch-dsl-py)
 so you can use all the features developed by the elasticsearch-dsl-py team.
 
-You can view the full documentation at https://django-elasticsearch-dsl.readthedocs.io
+## Installation
+
+```bash
+pip install django_elasticsearch_ng
+# or, you know... 
+poetry add django_elasticsearch_ng
+```
+
+## Usage
+
+At the moment, follow https://django-elasticsearch-dsl.readthedocs.io/
+but replace `django_elasticsearch_dsl` with `django_elasticsearch`
 
 ## Features
 
