@@ -12,7 +12,7 @@ authors = [
 ]
 include = ["CONTRIBUTING.rst", "HISTORY.rst"]
 license = "Apache-2.0"
-readme = "README.rst"
+readme = "README.md"
 keywords = ["django", "elasticsearch", "elasticsearch-dsl"]
 classifiers = [
   "Framework :: Django",
