@@ -118,7 +118,9 @@ class ObjectField(DEDField, Object):
 
         if objs is None:
             return {}
-        if not isinstance(objs, SimpleLazyObject) and isinstance(objs, collections.Iterable):
+        if not isinstance(objs, SimpleLazyObject) and isinstance(
+            objs, collections.Iterable
+        ):
             return [
                 self._get_inner_field_data(obj, field_value_to_ignore)
                 for obj in objs

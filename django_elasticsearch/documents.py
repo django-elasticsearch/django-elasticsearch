@@ -171,7 +171,8 @@ class Document(DSLDocument):
 
             if is_array_field:
                 _internal_class = model_field_class_to_field_class[
-                    model_field.base_field.__class__]
+                    model_field.base_field.__class__
+                ]
                 field_class.set_type(_internal_class.name)
 
             return field_class
