@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from django.conf import settings
 
-from django_elasticsearch_dsl import Index
-from django_elasticsearch_dsl.registries import DocumentRegistry
+from django_elasticsearch import Index
+from django_elasticsearch.registries import DocumentRegistry
 
 from .fixtures import WithFixturesMixin
 

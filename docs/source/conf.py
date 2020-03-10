@@ -235,7 +235,7 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "django_elasticsearch_dsl.tex",
+        "django_elasticsearch.tex",
         "Django Elasticsearch DSL Documentation",
         author,
         "manual",
@@ -270,8 +270,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "django_elasticsearch_dsl",
-        "Django Elasticsearc DSL Documentation",
+        "django_elasticsearch",
+        "Django Elasticsearch Documentation",
         [author],
         1,
     )
@@ -289,10 +289,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "django_elasticsearch_dsl",
-        "Django Elasticsearch DSL Documentation",
+        "django_elasticsearch",
+        "Django Elasticsearch Documentation",
         author,
-        "django_elasticsearch_dsl",
+        "django_elasticsearch",
         "elasticsearch-dsl intégration in Django",
         "Miscellaneous",
     ),

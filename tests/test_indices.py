@@ -3,8 +3,8 @@ from mock import patch
 
 from django.conf import settings
 
-from django_elasticsearch_dsl.indices import Index
-from django_elasticsearch_dsl.registries import DocumentRegistry
+from django_elasticsearch.indices import Index
+from django_elasticsearch.registries import DocumentRegistry
 
 from .fixtures import WithFixturesMixin
 
@@ -15,7 +15,7 @@ class IndexTestCase(WithFixturesMixin, TestCase):
 
     def test_documents_add_to_register(self):
         registry = self.registry
-        with patch("django_elasticsearch_dsl.indices.registry", new=registry):
+        with patch("django_elasticsearch.indices.registry", new=registry):
             index = Index("test")
             doc_a1 = self._generate_doc_mock(self.ModelA)
             doc_a2 = self._generate_doc_mock(self.ModelA)

@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "django_elasticsearch_dsl"
-version = "7.0.0"
-description = "Wrapper around elasticsearch-dsl-py for django models"
+name = "django-elasticsearch-ng"
+version = "7.0.0b0"
+description = "Wrapper around elasticsearch-dsl for django models"
 authors = [
   "Sabricot",
   "Safwan Rahman <safwan.rahman15@gmail.com>",
@@ -22,7 +22,9 @@ classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: BSD License",
 ]
-
+packages = [
+  {include = "django_elasticsearch"}
+]
 [tool.poetry.dependencies]
 python = "^3.6"
 django = ">=1.11"
@@ -37,6 +39,9 @@ coverage = "*"
 tox = "*"
 mock = "*"
 flake8 = "*"
+pytest-django = "*"
+pytest-cov = "*"
+
 #sphinx
 
 [build-system]

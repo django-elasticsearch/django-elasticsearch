@@ -10,7 +10,7 @@ Install Django Elasticsearch DSL::
     pip install django-elasticsearch-dsl
 
 
-Then add ``django_elasticsearch_dsl`` to the INSTALLED_APPS
+Then add ``django_elasticsearch`` to the INSTALLED_APPS
 
 You must define ``ELASTICSEARCH_DSL`` in your django settings.
 
@@ -48,7 +48,7 @@ Then for a model:
         ])
 
 To make this model work with Elasticsearch,
-create a subclass of ``django_elasticsearch_dsl.Document``,
+create a subclass of ``django_elasticsearch.Document``,
 create a ``class Index`` inside the ``Document`` class
 to define your Elasticsearch indices, names, settings etc
 and at last register the class using ``registry.register_document`` decorator.
@@ -58,8 +58,8 @@ It required to defined ``Document`` class in  ``documents.py`` in your app direc
 
     # documents.py
 
-    from django_elasticsearch_dsl import Document
-    from django_elasticsearch_dsl.registries import registry
+    from django_elasticsearch import Document
+    from django_elasticsearch.registries import registry
     from .models import Car
 
 

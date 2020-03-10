@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 from mock import Mock, NonCallableMock
 from six import string_types
 
-from django_elasticsearch_dsl.exceptions import VariableLookupError
-from django_elasticsearch_dsl.fields import (
+from django_elasticsearch.exceptions import VariableLookupError
+from django_elasticsearch.fields import (
     BooleanField,
     ByteField,
     CompletionField,

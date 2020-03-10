@@ -5,13 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 from elasticsearch_dsl import GeoPoint, MetaField
 from mock import patch, Mock, PropertyMock
 
-from django_elasticsearch_dsl import fields
-from django_elasticsearch_dsl.documents import Document
-from django_elasticsearch_dsl.exceptions import (
+from django_elasticsearch import fields
+from django_elasticsearch.documents import Document
+from django_elasticsearch.exceptions import (
     ModelFieldNotMappedError,
     RedeclaredFieldError,
 )
-from django_elasticsearch_dsl.registries import registry
+from django_elasticsearch.registries import registry
 from tests import ES_MAJOR_VERSION
 
 
@@ -185,7 +185,7 @@ class DocumentTestCase(TestCase):
     def test_model_instance_update(self):
         doc = CarDocument()
         car = Car(name="Type 57", price=5400000.0, not_indexed="not_indexex", pk=51)
-        with patch("django_elasticsearch_dsl.documents.bulk") as mock:
+        with patch("django_elasticsearch.documents.bulk") as mock:
             doc.update(car)
             actions = [
                 {
@@ -209,7 +209,7 @@ class DocumentTestCase(TestCase):
         doc = CarDocument()
         car = Car(name="Type 57", price=5400000.0, not_indexed="not_indexex", pk=51)
         car2 = Car(name=_("Type 42"), price=50000.0, not_indexed="not_indexex", pk=31)
-        with patch("django_elasticsearch_dsl.documents.bulk") as mock:
+        with patch("django_elasticsearch.documents.bulk") as mock:
             doc.update([car, car2], action="update")
             actions = [
                 {
@@ -244,7 +244,7 @@ class DocumentTestCase(TestCase):
         doc = CarDocument()
         doc.django.auto_refresh = False
         car = Car()
-        with patch("django_elasticsearch_dsl.documents.bulk") as mock:
+        with patch("django_elasticsearch.documents.bulk") as mock:
             doc.update(car)
             self.assertNotIn("refresh", mock.call_args_list[0][1])
 
@@ -259,8 +259,8 @@ class DocumentTestCase(TestCase):
         car2 = Car()
         car3 = Car()
 
-        bulk = "django_elasticsearch_dsl.documents.bulk"
-        parallel_bulk = "django_elasticsearch_dsl.documents.parallel_bulk"
+        bulk = "django_elasticsearch.documents.bulk"
+        parallel_bulk = "django_elasticsearch.documents.parallel_bulk"
         with patch(bulk) as mock_bulk, patch(parallel_bulk) as mock_parallel_bulk:
             doc.update([car3, car2, car3])
             self.assertEqual(3, len(list(mock_bulk.call_args_list[0][1]["actions"])))
@@ -278,8 +278,8 @@ class DocumentTestCase(TestCase):
         car1 = Car()
         car2 = Car()
         car3 = Car()
-        bulk = "django_elasticsearch_dsl.documents.bulk"
-        parallel_bulk = "django_elasticsearch_dsl.documents.parallel_bulk"
+        bulk = "django_elasticsearch.documents.bulk"
+        parallel_bulk = "django_elasticsearch.documents.parallel_bulk"
         with patch(bulk) as mock_bulk, patch(parallel_bulk) as mock_parallel_bulk:
             doc.update([car1, car2, car3], parallel=True)
             self.assertEqual(mock_bulk.call_count, 0, "bulk is not called")
@@ -295,19 +295,19 @@ class DocumentTestCase(TestCase):
 
         expect = {
             "color": (
-                "<class 'django_elasticsearch_dsl.fields.TextField'>",
+                "<class 'django_elasticsearch.fields.TextField'>",
                 ("<class 'method'>", "<type 'instancemethod'>"),
             ),  # py3, py2
             "type": (
-                "<class 'django_elasticsearch_dsl.fields.TextField'>",
+                "<class 'django_elasticsearch.fields.TextField'>",
                 ("<class 'functools.partial'>", "<type 'functools.partial'>"),
             ),
             "name": (
-                "<class 'django_elasticsearch_dsl.fields.TextField'>",
+                "<class 'django_elasticsearch.fields.TextField'>",
                 ("<class 'functools.partial'>", "<type 'functools.partial'>"),
             ),
             "price": (
-                "<class 'django_elasticsearch_dsl.fields.DoubleField'>",
+                "<class 'django_elasticsearch.fields.DoubleField'>",
                 ("<class 'functools.partial'>", "<type 'functools.partial'>"),
             ),
         }

@@ -3,7 +3,7 @@ from django.db import models
 from .registries import registry
 
 
-class BaseSignalProcessor(object):
+class BaseSignalProcessor:
     """Base signal processor.
 
     By default, does nothing with signals but provides underlying

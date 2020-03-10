@@ -1,7 +1,7 @@
 Fields
 ######
 
-Once again the ``django_elasticsearch_dsl.fields`` are subclasses of elasticsearch-dsl-py
+Once again the ``django_elasticsearch.fields`` are subclasses of elasticsearch-dsl-py
 fields_. They just add support for retrieving data from django models.
 
 
@@ -39,7 +39,7 @@ like this:
 
     # documents.py
 
-    from django_elasticsearch_dsl import Document, fields
+    from django_elasticsearch import Document, fields
 
     # ... #
 
@@ -118,7 +118,7 @@ You can use an ObjectField or a NestedField.
 
     # documents.py
 
-    from django_elasticsearch_dsl import Document, fields
+    from django_elasticsearch import Document, fields
     from .models import Car, Manufacturer, Ad
 
     @registry.register_document

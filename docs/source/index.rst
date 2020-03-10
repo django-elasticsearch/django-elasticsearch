@@ -1,5 +1,5 @@
-Django Elasticsearch DSL
-#########################
+Django Elasticsearch
+####################
 
 Contents:
 

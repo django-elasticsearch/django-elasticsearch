@@ -15,7 +15,7 @@ try:
                 "django.contrib.auth",
                 "django.contrib.contenttypes",
                 "django.contrib.sites",
-                "django_elasticsearch_dsl",
+                "django_elasticsearch",
                 "tests",
             ],
             SITE_ID=1,

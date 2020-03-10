@@ -8,11 +8,11 @@ from django.core.exceptions import ImproperlyConfigured
 from elasticsearch_dsl import AttrDict
 from six import itervalues, iterkeys, iteritems
 
-from django_elasticsearch_dsl.exceptions import RedeclaredFieldError
+from django_elasticsearch.exceptions import RedeclaredFieldError
 from .apps import DEDConfig
 
 
-class DocumentRegistry(object):
+class DocumentRegistry:
     """
     Registry of models classes to a set of Document classes.
     """

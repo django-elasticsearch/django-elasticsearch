@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from six import StringIO
 
 from elasticsearch_dsl import Index as DSLIndex
-from django_elasticsearch_dsl.test import ESTestCase
+from django_elasticsearch.test import ESTestCase
 from tests import ES_MAJOR_VERSION
 
 from .documents import (

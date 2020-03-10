@@ -15,7 +15,7 @@ and also add the `registry.register_document` decorator.
 
     # documents.py
     from elasticsearch_dsl import Index
-    from django_elasticsearch_dsl import Document
+    from django_elasticsearch import Document
     from .models import Car, Manufacturer
 
     # The name of your index

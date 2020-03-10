@@ -1,6 +1,6 @@
 from elasticsearch_dsl import analyzer
-from django_elasticsearch_dsl import Document, Index, fields
-from django_elasticsearch_dsl.registries import registry
+from django_elasticsearch import Document, Index, fields
+from django_elasticsearch.registries import registry
 
 from .models import Ad, Car, Manufacturer
 

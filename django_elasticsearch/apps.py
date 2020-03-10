@@ -6,8 +6,8 @@ from elasticsearch_dsl.connections import connections
 
 
 class DEDConfig(AppConfig):
-    name = "django_elasticsearch_dsl"
-    verbose_name = "Django elasticsearch-dsl"
+    name = "django_elasticsearch"
+    verbose_name = "Django Elasticsearch"
     signal_processor = None
 
     def ready(self):
@@ -18,7 +18,7 @@ class DEDConfig(AppConfig):
             signal_processor_path = getattr(
                 settings,
                 "ELASTICSEARCH_DSL_SIGNAL_PROCESSOR",
-                "django_elasticsearch_dsl.signals.RealTimeSignalProcessor",
+                "django_elasticsearch.signals.RealTimeSignalProcessor",
             )
             signal_processor_class = import_string(signal_processor_path)
             self.signal_processor = signal_processor_class(connections)

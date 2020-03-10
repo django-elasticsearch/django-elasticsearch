@@ -33,9 +33,9 @@ An example:
 
 .. code-block:: python
 
-    ELASTICSEARCH_DSL_SIGNAL_PROCESSOR = 'django_elasticsearch_dsl.signals.RealTimeSignalProcessor'
+    ELASTICSEARCH_DSL_SIGNAL_PROCESSOR = 'django_elasticsearch.signals.RealTimeSignalProcessor'
 
-Defaults to ``django_elasticsearch_dsl.signals.RealTimeSignalProcessor``.
+Defaults to ``django_elasticsearch.signals.RealTimeSignalProcessor``.
 
 You could, for instance, make a ``CelerySignalProcessor`` which would add
 update jobs to the queue to for delayed processing.
