@@ -127,7 +127,8 @@ class Command(BaseCommand):
         if not options["force"]:
             response = input(
                 "Are you sure you want to delete "
-                "the '{}' indexes? [y/N]: ".format(", ".join(index_names)))
+                "the '{}' indexes? [y/N]: ".format(", ".join(index_names))
+            )
             if response.lower() != "y":
                 self.stdout.write("Aborted")
                 return False

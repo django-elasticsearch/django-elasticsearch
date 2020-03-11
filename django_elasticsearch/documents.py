@@ -144,10 +144,10 @@ class Document(DSLDocument):
             choices = field._value_choices
             if value and choices:
                 if isinstance(value, list):
-                    value_display = [x[1] for x in choices if x[0] in value]
+                    value_display = [str(x[1]) for x in choices if x[0] in value]
                 else:
-                    value_display = [x[1] for x in choices if x[0] == value][0]
-                data[f"{name}_display"] = str(value_display)  # here for ugettext_lazies
+                    value_display = [str(x[1]) for x in choices if x[0] == value][0]
+                data[f"{name}_display"] = value_display
         return data
 
     @classmethod
