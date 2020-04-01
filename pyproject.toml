@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-elasticsearch-ng"
+name = "django-elasticsearch"
 version = "7.0.2"
 description = "Wrapper around elasticsearch-dsl for django models"
 authors = [

@@ -1,6 +1,6 @@
-![PyPI](https://img.shields.io/pypi/v/django_elasticsearch_ng)
+![PyPI](https://img.shields.io/pypi/v/django_elasticsearch)
 ![python version](https://img.shields.io/badge/python-3.6+-blue.svg)
-![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-elasticsearch-ng)
+![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-elasticsearch)
 ![ElasticSearch Version](https://img.shields.io/badge/elasticsearch-7.0%2B-blue)
 ![Travis (.com)](https://img.shields.io/travis/com/django-elasticsearch/django-elasticsearch)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -13,9 +13,9 @@ so you can use all the features developed by the elasticsearch-dsl-py team.
 ## Installation
 
 ```bash
-pip install django_elasticsearch_ng
+pip install django_elasticsearch
 # or, you know... 
-poetry add django_elasticsearch_ng
+poetry add django_elasticsearch
 ```
 
 ## Usage
