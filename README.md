@@ -20,8 +20,7 @@ poetry add django_elasticsearch
 
 ## Usage
 
-At the moment, follow https://django-elasticsearch-dsl.readthedocs.io/
-but replace `django_elasticsearch_dsl` with `django_elasticsearch`
+Please see https://django-elasticsearch.rtfd.io
 
 ## Features
 

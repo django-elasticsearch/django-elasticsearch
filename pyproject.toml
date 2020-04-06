@@ -2,6 +2,8 @@
 name = "django-elasticsearch"
 version = "7.0.2"
 description = "Wrapper around elasticsearch-dsl for django models"
+repository = "https://github.com/django-elasticsearch/django-elasticsearch"
+homepage = "http://django-elasticsearch.rtfd.io/"
 authors = [
   "Sabricot",
   "Safwan Rahman <safwan.rahman15@gmail.com>",

@@ -1,0 +1,10 @@
+site_name: Django-Elasticsearch
+
+nav:
+    - Home: index.md
+    - Documents: documents.md
+    - Settings: settings.md
+    - Management Commands: management.md
+    - Contributing: contributing.md
+    - Changelog: changelog.md
+theme: readthedocs
